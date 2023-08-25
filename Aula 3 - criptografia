@@ -1,0 +1,127 @@
+
+# definir uma condição para o while loop
+programRunning = True
+
+# definir uma função para retornar ao menu inicial
+def menuInicial():
+    i = 0
+    while i == 0:
+        # definir programRunning como global para alterar ela no resto do código
+        global programRunning
+        # verificar a escolha do usuário
+        Escolha2 = input("Você deseja retornar à tela inicial? (y/n)\n")
+        Escolha2 = Escolha2.lower()
+        if Escolha2 == "n":
+            programRunning = False
+            i = 1
+        elif Escolha2 == "y":
+            programRunning = True
+            i = 1
+        else:
+            print("Opção inválida.")
+            i = 0
+        print("")
+
+while programRunning == True:
+    print("-"*40)
+    print("CRYPTO2000 - v1.0")
+    print("Seja bem vindo ao CRYPTO2000, sua máquina de cripto/descriptografia!")
+    print("Funções: \n 1.    Criptografar texto com chave \n 2.    Descriptografar texto com chave")
+    print("-" * 40)
+    print("")
+
+    Escolha1 = int(input("O que você deseja fazer? (1 / 2)\n"))
+
+    # Criptografia
+    if Escolha1 == 1:
+
+        # receber o texto
+        txtCrypto = input("Digite o texto a ser criptografado: ")
+
+        # receber a chave
+        chaveCrypto = int(input("Digite a chave de criptografia: "))
+
+        # criar variável str vazia
+        output = ""
+
+        # criar loop
+        for i in range(len(txtCrypto)):
+
+            # não mudar o caractere caso for espaço
+            if txtCrypto[i] == " ":
+                letraNova = " "
+
+            # criptografia de fato
+            else:
+                # transformar a letra índice i em ASCII
+                letraCrypto = ord(txtCrypto[i])
+
+                if letraCrypto == 122:
+                    # se a letra for "z", retornar ao "a"
+                    letraCrypto = 97
+
+                else:
+                    # somar o valor da chave ao valor ASCII da letra (adiciona a chave)
+                    letraCrypto += chaveCrypto
+
+                # transformar a letra, agora criptografrada, de volta ao alfabeto alfanumérico
+                letraNova = chr(letraCrypto)
+
+            # concatenar à variável output a letra nova
+            output = output + letraNova
+
+        # retornar o texto criptografado
+        print(f"\nSeu texto criptografado é: {output}")
+        print("")
+
+        # chamar função para retornar ao menu inicial
+        menuInicial()
+
+    # Descriptografia
+    elif Escolha1 == 2:
+
+        # receber o texto
+        txtCrypto = input("Digite o texto a ser descriptografado: ")
+
+        # receber a chave
+        chaveCrypto = int(input("Digite a chave de descriptografia: "))
+
+        # criar variável str vazia
+        output = ""
+
+        # criar loop
+        for i in range(len(txtCrypto)):
+
+            # não mudar o caractere caso for espaço
+            if txtCrypto[i] == " ":
+                letraNova = " "
+
+            # descriptografia de fato
+            else:
+                # transformar a letra índice i em ASCII
+                letraCrypto = ord(txtCrypto[i])
+
+                if letraCrypto == 97:
+                    # se a letra for "a", retornar ao "z"
+                    letraCrypto = 122
+
+                else:
+                    # subtrair o valor da chave ao valor ASCII da letra (subtrai a chave)
+                    letraCrypto -= chaveCrypto
+
+                # transformar a letra, agora descriptografrada, de volta ao alfabeto alfanumérico
+                letraNova = chr(letraCrypto)
+
+            # concatenar à variável output a letra nova
+            output = output + letraNova
+
+        # retornar o texto descriptografado
+        print(f"\nSeu texto descriptografado é: {output}")
+        print("")
+
+        # chamar função para retornar ao menu inicial
+        menuInicial()
+
+    # Usuário incompetente
+    else:
+        print("Opção Inválida.")
