@@ -10,6 +10,7 @@ global stopPlaying
 global lettersGuess
 global lettersChosenWord
 global chosenWord
+colors = []
 
 
 # declaring some variables
@@ -34,25 +35,30 @@ def clr_var():
     chosenWord = ""
 
 
-clr_var()
-
-
 def slots():
+    global colors
     for i in range(0, 5):
-        # Cinza
-        if lettersGuess[i] not in lettersChosenWord:
-            print(Back.BLACK + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
-
-        # Amarelo
-        elif lettersGuess[i] == lettersChosenWord[i]:
-            print(Back.GREEN + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
-
-        # Verde
+    # parte 1: checando letras verdes, amarelo e preto
+        if lettersGuess[i] == lettersChosenWord[i]:
+            colors.append('green')
+        elif lettersGuess[i] in lettersChosenWord:
+            colors.append('yellow')
         else:
-            print(Back.YELLOW + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
+            colors.append('black')
+    for i in range(0, 5):
+    # parte 2 : printando as letras nas cores certas
+            if colors[i] == 'green':
+                print(Back.GREEN + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
+
+            elif colors[i] == 'yellow':
+                print(Back.YELLOW + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
+
+            elif colors[i] == 'black':
+                print(Back.BLACK + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
     print("")
+    colors = []
 
-
+clr_var()
 while stopPlaying == False:
     clr_var()
     words = ["sagaz", "tonto", "perto", "lerdo", "jeito", "negro", "adeus",
@@ -65,7 +71,7 @@ while stopPlaying == False:
     chosenWord = chosenWord.upper()
     lettersChosenWord = list(chosenWord)
 
-    # print(f'The chosen word is: {chosenWord}')
+    print(f'The chosen word is: {chosenWord}')
     while guessed < 5 and win == False and tries < 6:
         # print the slots
         if tries > 0:
