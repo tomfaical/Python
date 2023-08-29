@@ -1,24 +1,42 @@
 import random
-from colorama import Fore, Back
-from os import system, name
+from colorama import Back
 
-def clear():
-    # for windows the name is 'nt'
-    if name == 'nt':
-        _ = system('cls')
+global win
+global tries
+global rightL
+global rightLP
+global guessed
+global stopPlaying
+global lettersGuess
+global lettersChosenWord
+global chosenWord
+
 
 # declaring some variables
 def clr_var():
-    global win = False
-    global tries = 0
-    global rightL = set()
-    global rightLP = ['_', '_', '_', '_', '_']
-    global guessed = 0
-    global stopPlaying = False
-    global lettersGuess = list()
-    global lettersChosenWord = list()
-    global chosenWord = ""
+    global win
+    global tries
+    global rightL
+    global rightLP
+    global guessed
+    global stopPlaying
+    global lettersGuess
+    global lettersChosenWord
+    global chosenWord
+    win = False
+    tries = 0
+    rightL = set()
+    rightLP = ['_', '_', '_', '_', '_']
+    guessed = 0
+    stopPlaying = False
+    lettersGuess = list()
+    lettersChosenWord = list()
+    chosenWord = ""
+
+
 clr_var()
+
+
 def slots():
     for i in range(0, 5):
         # Cinza
@@ -34,6 +52,7 @@ def slots():
             print(Back.YELLOW + f' {lettersGuess[i]} ' + Back.RESET, end=" ")
     print("")
 
+
 while stopPlaying == False:
     clr_var()
     words = ["sagaz", "tonto", "perto", "lerdo", "jeito", "negro", "adeus",
@@ -46,7 +65,7 @@ while stopPlaying == False:
     chosenWord = chosenWord.upper()
     lettersChosenWord = list(chosenWord)
 
-    #print(f'The chosen word is: {chosenWord}')
+    # print(f'The chosen word is: {chosenWord}')
     while guessed < 5 and win == False and tries < 6:
         # print the slots
         if tries > 0:
@@ -58,22 +77,23 @@ while stopPlaying == False:
         lettersGuess = list(wordGuess)
         # check whether the guess is 5 lettered
         if len(wordGuess) == 5:
-            for c1 in range(0,5):
+            for c1 in range(0, 5):
                 # check whether each letter of the guess is equal to each letter of the word
                 if lettersGuess[c1] == lettersChosenWord[c1]:
-                    rightLP[c1]=lettersGuess[c1]
+                    rightLP[c1] = lettersGuess[c1]
                     rightL.add(lettersGuess[c1])
                 elif lettersGuess[c1] in lettersChosenWord:
                     rightL.add(lettersGuess[c1])
             # update counters
             guessed = guessed + 1
             tries = tries + 1
-        else: print("You must input a 5 letter word")
+        else:
+            print("You must input a 5 letter word")
         if rightLP == lettersChosenWord:
             win = True
     if tries < 6 and win == True:
         slots()
-        print ("You Win!")
+        print("You Win!")
     else:
         slots()
         print("You Lose.")
