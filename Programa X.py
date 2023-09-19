@@ -234,12 +234,7 @@ while programRunning:
         # se busca não conter números, minusculo
         if not busca.isnumeric():
             busca = busca.lower()
-            # se busca for nome, capitalize
-            if busca in nome:
-                busca = busca.capitalize()
-            # se busca for sangue, upper
-            else:
-                busca = busca.upper()
+            busca = busca.capitalize()
 
         # se busca conter números (aka se busca for CPF), blz
         elif busca.isnumeric():
