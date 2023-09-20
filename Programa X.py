@@ -1,4 +1,4 @@
-# Programa X v2.0
+# Programa X v3.0
 
 # importando libs
 # time serve pra esperar pra limpar a tela
@@ -14,6 +14,8 @@ init(autoreset=True)
 # declarando variáveis significativas
 # faz o programa rodar
 programRunning = True
+# lista pra contar
+count = []
 # lista pros nomes
 nome = []
 # lista pros cpf
@@ -27,6 +29,13 @@ n2check = False
 
 # list pra checar o tipo sanguineo
 sangueMap = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
+
+
+def clear(timeWait):
+    time.sleep(timeWait)
+    os.system('cls')
+    resposta1 = ""
+    return resposta1
 
 
 # func pra achar a string mais longa da lista (formatar o 2)
@@ -83,23 +92,24 @@ while programRunning:
     head("PROGRAMA X", "black", "blue", 80)
     # printando o menu inicial com o numero pintado e a opção não
     print("     " + Fore.BLACK + Back.BLUE + " 1 ", end="")
-    print("    -   Entrada de Dados \n")
+    print("    -   Adicionar à fila \n")
     print("     " + Fore.BLACK + Back.BLUE + " 2 ", end="")
-    print("    -   Mostrar Banco de Dados \n")
+    print("    -   Próximo da fila \n")
     print("     " + Fore.BLACK + Back.BLUE + " 3 ", end="")
-    print("    -   Busca no Banco de Dados \n")
+    print("    -   Mostrar banco de dados \n")
     print("     " + Fore.BLACK + Back.BLUE + " 4 ", end="")
+    print("    -   Busca no banco de dados \n")
+    print("     " + Fore.BLACK + Back.BLUE + " 5 ", end="")
     print("    -   Sair \n")
 
     # Tomando a escolha do usuário
     resposta1 = str(input("Digite o número da opção: "))
 
-    # escolha 1
+    # escolha 1 (Inserção de Dados)
     if resposta1 == '1':
         # retornando a escolha do usuário, esperando 5s e limpando a tela
         print(Fore.LIGHTBLACK_EX + "\nDigitado 1...")
-        time.sleep(1.5)
-        os.system('cls')
+        clear(1.5)
 
         # cabeçalho
         head("Inserção de Dados", "black", "magenta", 80)
@@ -132,6 +142,7 @@ while programRunning:
 
                         # adicionando o n1 ao ultimo indice vazio da lista nome
                         nome.append(n1)
+                        count.append(n1)
 
                         # atualizando o contador
                         n2check = True
@@ -189,82 +200,116 @@ while programRunning:
 
         # esperando interação do usuário e voltando para o menu inicial
         voltar = input(Fore.LIGHTBLACK_EX + "\nAperte ENTER para continuar...")
-        os.system('cls')
+        clear(0)
 
-    # escolha 2 e passou pela 1
-    elif resposta1 == '2' and r11:
-        # retornando a escolha do usuário e limpando a tela
+    # escolha 2 (Próximo da fila)
+    if resposta1 == '2':
+        # retornando a escolha do usuário, esperando 5s e limpando a tela
         print(Fore.LIGHTBLACK_EX + "\nDigitado 2...")
-        time.sleep(1.5)
-        os.system('cls')
+        clear(1.5)
+
+        # cabeçalho
+        head("Próximo da Fila", "black", "magenta", 80)
+        # printando 45 + (tamanho da maior string) tracinhos ("-")
+        if nome:
+            print("-" * (45 + len(getMax(count))))
+            print("    CPF          TIPO SANGUÍNEO      NOME")
+
+            filaCPF = cpf.pop(0)
+            filaSangue = sangue.pop(0)
+            filaNome = nome.pop(0)
+
+            print(f"{filaCPF}           {filaSangue}             {filaNome}")
+            # printando 45 + (tamanho da maior string) tracinhos ("-")
+            print("-" * (45 + len(getMax(count))))
+        else:
+            print("A fila está vazia!")
+
+        # esperando interação do usuário e voltando para o menu inicial
+        voltar = input(Fore.LIGHTBLACK_EX + "\nAperte ENTER para continuar...")
+        clear(0)
+
+    # escolha 3 (Banco de Dados)
+    elif resposta1 == '3':
+        # retornando a escolha do usuário e limpando a tela
+        print(Fore.LIGHTBLACK_EX + "\nDigitado 3...")
+        clear(1.5)
 
         # cabeçalho
         head("Banco de Dados", "black", "magenta", 80)
         # printando 45 + (tamanho da maior string) tracinhos ("-")
-        print("-" * (45 + len(getMax(nome))))
-        print("    CPF          TIPO SANGUÍNEO      NOME")
+        if nome:
+            print("-" * (45 + len(getMax(count))))
+            print("    CPF          TIPO SANGUÍNEO      NOME")
 
-        # loop para rodar (tamanho da lista nome) vezes
-        for i in range(len(cpf)):
-            # retornando cada uma das entradas
-            print(f"{cpf[i]}           {sangue[i]}             {nome[i]}")
+            # loop para rodar (tamanho da lista nome) vezes
+            for i in range(len(cpf)):
+                # retornando cada uma das entradas
+                print(f"{cpf[i]}           {sangue[i]}             {nome[i]}")
 
-        # printando 45 + (tamanho da maior string) tracinhos ("-")
-        print("-" * (45 + len(getMax(nome))))
+            # printando 45 + (tamanho da maior string) tracinhos ("-")
+            print("-" * (45 + len(getMax(count))))
+        else:
+            print("O banco de dados está vazio!")
 
         # esperando interação do usuário e voltando para o menu inicial
         voltar = input(Fore.LIGHTBLACK_EX + "\nAperte ENTER para continuar...")
-        os.system('cls')
+        clear(0)
 
-    # escolha 3 e passou pela 1
-    elif resposta1 == '3' and r11:
-        # retornando a escolha do usuário e limpando a tela
-        print(Fore.LIGHTBLACK_EX + "\nDigitado 3...")
-        time.sleep(1.5)
-        os.system('cls')
-
-        # cabeçalho
-        head("Busca no Banco de Dados", "black", "magenta", 80)
-
-        # recebendo o termo de busca
-        busca = str(input("Digite o termo de busca: "))
-        print("")
-
-        # arrumando a busca
-        # se busca não conter números, minusculo
-        if not busca.isnumeric():
-            busca = busca.lower()
-            busca = busca.capitalize()
-
-        # se busca conter números (aka se busca for CPF), blz
-        elif busca.isnumeric():
-            pass
-
-        # se o usuário encontrar outra opção que não: "número" ou "não número", busca inválida
-        else:
-            print("Busca inválida.")
-
-        print(Fore.BLUE + "Resultados da Busca:\n")
-
-        # loop para rodar (tamanho da lista nome) vezes
-        for i in range(len(nome)):
-            # checando se o termo de busca está presente em qualquer uma das listas
-            if busca in cpf[i] or busca in sangue[i] or busca in nome[i]:
-                # retornando a entrada correspondente
-                print(f"{cpf[i]}     {sangue[i]}     {nome[i]}")
-
-        # esperando interação do usuário e voltando para o menu inicial
-        print("")
-        voltar = input(Fore.LIGHTBLACK_EX + "Aperte ENTER para continuar...")
-        os.system('cls')
-
-    # escolha 4
+    # escolha 4 (Busca)
     elif resposta1 == '4':
         # retornando a escolha do usuário e limpando a tela
         print(Fore.LIGHTBLACK_EX + "\nDigitado 4...")
+        clear(1.5)
+
+        # cabeçalho
+        head("Busca no Banco de Dados", "black", "magenta", 80)
+        if nome:
+            # recebendo o termo de busca
+            busca = str(input("Digite o termo de busca: "))
+            print("")
+
+            # arrumando a busca
+            # se busca não conter números, minusculo
+            if not busca.isnumeric():
+                busca = busca.lower()
+                # se busca for nome, capitalize
+                if busca in nome:
+                    busca = busca.capitalize()
+                # se busca for sangue, upper
+                else:
+                    busca = busca.upper()
+
+            # se busca conter números (aka se busca for CPF), blz
+            elif busca.isnumeric():
+                pass
+
+            # se o usuário encontrar outra opção que não: "número" ou "não número", busca inválida
+            else:
+                print("Busca inválida.")
+
+            print(Fore.BLUE + "Resultados da Busca:\n")
+
+            # loop para rodar (tamanho da lista nome) vezes
+            for i in range(len(nome)):
+                # checando se o termo de busca está presente em qualquer uma das listas
+                if busca in cpf[i] or busca in sangue[i] or busca in nome[i]:
+                    # retornando a entrada correspondente
+                    print(f"{cpf[i]}     {sangue[i]}     {nome[i]}")
+
+            # esperando interação do usuário e voltando para o menu inicial
+            print("")
+        else:
+            print("O banco de dados está vazio!")
+        voltar = input(Fore.LIGHTBLACK_EX + "Aperte ENTER para continuar...")
+        clear(0)
+
+    # escolha 5 (Encerrar)
+    elif resposta1 == '5':
+        # retornando a escolha do usuário e limpando a tela
+        print(Fore.LIGHTBLACK_EX + "\nDigitado 5...")
         print(Fore.RED + "\nEncerrando.")
-        time.sleep(1.5)
-        os.system('cls')
+        clear(1.5)
 
         # interrompendo o loop
         break
