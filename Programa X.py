@@ -1,4 +1,4 @@
-# Programa X v3.0
+# Programa X v5.0
 
 # importando libs
 # time serve pra esperar pra limpar a tela
@@ -22,10 +22,16 @@ nome = []
 cpf = []
 # lista pros tipos sanguineos
 sangue = []
+# listas pra achar coisas no banco de dados
+cpffound = []
+sanguefound = []
+nomefound = []
 # contadores
 r11 = False
 n1check = False
 n2check = False
+right = 0
+        
 
 # list pra checar o tipo sanguineo
 sangueMap = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
@@ -214,7 +220,8 @@ while programRunning:
         if nome:
             print("-" * (45 + len(getMax(count))))
             print("    CPF          TIPO SANGUÍNEO      NOME")
-
+            
+            # armazenando nas respectivas vars, o item indice 0 das listas
             filaCPF = cpf.pop(0)
             filaSangue = sangue.pop(0)
             filaNome = nome.pop(0)
@@ -294,13 +301,40 @@ while programRunning:
             for i in range(len(nome)):
                 # checando se o termo de busca está presente em qualquer uma das listas
                 if busca in cpf[i] or busca in sangue[i] or busca in nome[i]:
+                    # armazenando as entradas correspondentes
+                    cpffound.append(cpf[i])
+                    sanguefound.append(sangue[i])
+                    nomefound.append(nome[i])
+                    
+                    # atualizando o contador de matches
+                    right += 1
+            
+            # se 0 matches, nn foi encontrado nada
+            if right == 0:
+                print(Fore.WHITE + Back.RED + "Entrada não encontrada.".center(80))
+            else:
+                # printando tracinho
+                print("-" * (45 + len(getMax(count))))
+                print("CPF            Tipo Sanguíneo     Nome")
+                      
+                for i in range(len(cpffound)):
                     # retornando a entrada correspondente
-                    print(f"{cpf[i]}     {sangue[i]}     {nome[i]}")
-
-            # esperando interação do usuário e voltando para o menu inicial
-            print("")
+                    print(f"{cpffound[i]}         {sanguefound[i]}            {nomefound[i]}")
+              
+                # printando tracinho
+                print("-" * (45 + len(getMax(count))))
+        
+                # resettando os parametros
+                cpffound = []
+                nomefound = []
+                sanguefound = []
+                right = 0
+                
         else:
             print("O banco de dados está vazio!")
+        
+        # esperando interação do usuário e voltando para o menu inicial
+        print("")
         voltar = input(Fore.LIGHTBLACK_EX + "Aperte ENTER para continuar...")
         clear(0)
 
@@ -315,5 +349,5 @@ while programRunning:
         break
 
     # escolha inválida
-    else:
+    elif resposta1 not in ["1", "2", "3", "4", "5"]:
         print(Fore.RED + "\nOpção inválida")
